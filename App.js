@@ -1,7 +1,13 @@
+import React,{useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, SafeAreaView ,Image,View,ImageBackground,Button,TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, SafeAreaView ,Image,View,ImageBackground,Button,TouchableOpacity,TextInput} from 'react-native';
 import { Octicons } from '@expo/vector-icons'; 
 export default function App() {
+  const [name,onChangeName]=useState("Name");
+  const [surname, onChangeSurname]=useState("Surname");
+  const[number,onchangeNumber]=useState("Number");
+  const [email,onChangeEmail]=useState("Email");
+
   return (
     <SafeAreaView style={styles.container}>
 <Image source={require("./assets/wave/Wave.svg")} style={styles.wavePNG}/>
@@ -11,7 +17,10 @@ export default function App() {
         </View>
 
         <View style={styles.registerContainer}>
-          <Text>Hellow</Text>
+      <TextInput style={styles.txtInput} placeholder={name}/>
+      <TextInput style={styles.txtInput} placeholder={surname}/>
+      <TextInput style={styles.txtInput} placeholder={number}/>
+      <TextInput style={styles.txtInput} placeholder={email}/>
         </View>
 
           <View style={styles.btnView}>
@@ -25,7 +34,15 @@ export default function App() {
         <Text style={styles.textBtn}>Sign up</Text>
       </TouchableOpacity>
           </View>
-          <View style={styles.tosignIn}><Text>Already have an account? Sign in</Text></View>
+          <View style={styles.tosignIn}>
+            <Text style={{color:"white",fontSize:17}}>Already have an account? <Text style={{color:"blue",fontSize:17}}>Sign in</Text> </Text>
+            </View>
+          <Image source={require("./assets/wave/Wave.svg")} style={{
+            width: "100%",
+            height:100,
+            display:"block",
+            transfrom:[{rotate:"160"}]
+            }}/>
       <StatusBar style="auto" />
     </SafeAreaView>
   );
@@ -47,10 +64,24 @@ flex:1,
   registerContainer:{
     flex:2,
        borderWidth: 2,
+       justifyContent:"space-evenly",
        borderColor:"#1170EC",
       width:"90%",
     backgroundColor:"rgba(14, 42, 71,0.7)",
+    shadowColor: 'blue',
+    shadowOffset: {width: -2, height: 4},
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
 
+  },
+  txtInput:{
+    color:"white",
+    width:"100%",
+    height:40,
+    padding:10,
+    borderBottomWidth:2,
+    borderBottomColor:"white",
+    fontSize:20,
   },
   btnView:{
     height:150,
@@ -61,10 +92,20 @@ flex:1,
     
 
   },
-  textBtn:{ fontSize: 20, color: '#fff' ,alignSelf:"center",lineHeight:"45px",},
+  textBtn:{ 
+    fontSize: 20, 
+    color: '#fff' ,
+    alignSelf:"center",
+    lineHeight:"45px",
+  },
   tosignIn:{
+    
+    color:"white",
     width:280,
-    hieght:230,
-    backgroundColor:"rgba(17, 112, 236,0.7)",
-  }
+    height:50,
+    justifyContent:"center",
+    alignItems:"center",
+    backgroundColor:"rgba(17, 112, 236,0.4)",
+
+  },
 });
