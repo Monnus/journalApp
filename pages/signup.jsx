@@ -2,12 +2,14 @@ import React,{useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, SafeAreaView ,Image,View,ImageBackground,Button,TouchableOpacity,TextInput} from 'react-native';
 import { Octicons } from '@expo/vector-icons'; 
+import app from '../firebase';
 
+console.log(app);
 function SignUpPage({navigation}){
-    const [name,onChangeName]=useState("Name");
-    const [surname, onChangeSurname]=useState("Surname");
-    const[number,onchangeNumber]=useState("Number");
-    const [email,onChangeEmail]=useState("Email");
+  const [surname, onChangeSurname]=useState("Surname");
+  const [name,onChangeName]=useState("Name");
+  const[number,onchangeNumber]=useState("Number");
+  const [email,onChangeEmail]=useState("Email");
     return (
         <SafeAreaView style={styles.container}>
         <View style={{flex:1,width:"100%"}}>
@@ -20,10 +22,10 @@ function SignUpPage({navigation}){
                 </View>
         
                 <View style={styles.registerContainer}>
-                  <TextInput style={styles.txtInput} placeholder={name}/>
-                  <TextInput style={styles.txtInput} placeholder={surname}/>
-                  <TextInput style={styles.txtInput} placeholder={number}/>
-                  <TextInput style={styles.txtInput} placeholder={email}/>
+                  <TextInput style={styles.txtInput} onChangeText={text=>onChangeName(text)} placeholder={name} />
+                  <TextInput style={styles.txtInput} onChangeText={text=>onChangeSurname(text)} placeholder={surname}/>
+                  <TextInput style={styles.txtInput} onChangeText={num=>onchangeNumber(num)} placeholder={number}/>
+                  <TextInput style={styles.txtInput} onChangeText={text=>onChangeEmail(text)} placeholder={email}/>
                 </View>
         
                   <View style={styles.btnView}>
@@ -49,9 +51,8 @@ function SignUpPage({navigation}){
                     display:"block",
                     transform:[{rotate:"180deg"}]
                   }}/>
-               
-        
                   </View>
+
               <StatusBar style="auto" />
             </SafeAreaView>
    

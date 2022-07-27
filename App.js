@@ -14,9 +14,9 @@ const Stack=createNativeStackNavigator();
   return (
     <NavigationContainer>
    <userContext.Provider >
-          <Stack.Navigator initialRouteName='Signin'>
+          <Stack.Navigator initialRouteName='Signup'>
             <Stack.Screen name="Login" component={LoginPage} />
-            <Stack.Screen name="Signin" component={SignUpPage}/>
+            <Stack.Screen name="Signup" component={SignUpPage}/>
           </Stack.Navigator>
     </userContext.Provider>    
     </NavigationContainer>
