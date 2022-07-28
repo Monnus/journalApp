@@ -1,15 +1,18 @@
-import React,{useState} from 'react';
+import React,{useState,useContext} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, SafeAreaView ,Image,View,ImageBackground,Button,TouchableOpacity,TextInput} from 'react-native';
 import { Octicons } from '@expo/vector-icons'; 
 import app from '../firebase';
+import {getAuth} from "firebase/auth";
+import { userContext } from '../App';
 
-console.log(app);
+
+
 function SignUpPage({navigation}){
-  const [surname, onChangeSurname]=useState("Surname");
-  const [name,onChangeName]=useState("Name");
-  const[number,onchangeNumber]=useState("Number");
-  const [email,onChangeEmail]=useState("Email");
+
+const {onChangeName,onChangeSurname,onchangeNumber,onChangeEmail,handlechange} =useContext(userContext);
+const Id=1;
+
     return (
         <SafeAreaView style={styles.container}>
         <View style={{flex:1,width:"100%"}}>
@@ -22,20 +25,21 @@ function SignUpPage({navigation}){
                 </View>
         
                 <View style={styles.registerContainer}>
-                  <TextInput style={styles.txtInput} onChangeText={text=>onChangeName(text)} placeholder={name} />
-                  <TextInput style={styles.txtInput} onChangeText={text=>onChangeSurname(text)} placeholder={surname}/>
-                  <TextInput style={styles.txtInput} onChangeText={num=>onchangeNumber(num)} placeholder={number}/>
-                  <TextInput style={styles.txtInput} onChangeText={text=>onChangeEmail(text)} placeholder={email}/>
+                  <View id="recaptcha-container"><Text>recaptcha-container</Text></View>
+                  <TextInput style={styles.txtInput} onChangeText={text=>onChangeName(text)} placeholder="Name" />
+                  <TextInput style={styles.txtInput} onChangeText={text=>onChangeSurname(text)} placeholder="Surname"/>
+                  <TextInput style={styles.txtInput} onChangeText={num=>onchangeNumber(num)} placeholder="Number"/>
+                  <TextInput style={styles.txtInput} onChangeText={text=>onChangeEmail(text)} placeholder="Email"/>
                 </View>
         
                   <View style={styles.btnView}>
                 <TouchableOpacity
-                onPress={() => alert('Hello, world!')}
+                onPress={() => handlechange(Id)}
                 style={{ backgroundColor: '#0E2A47' ,width:300,height:"51px",
                 shadowColor: 'blue',
                 shadowOffset: {width: -2, height: 4},
                 shadowOpacity: 0.2,
-                shadowRadius: 3,}}>
+                shadowRadius: 3,}} >
                 <Text style={styles.textBtn}>Sign up</Text>
               </TouchableOpacity>
                   </View>
@@ -45,6 +49,7 @@ function SignUpPage({navigation}){
                     </View>
                     
                     <View style={{flex:1,width:"100%",height:100}}>
+                    
                    <Image source={require("../assets/wave/Wave.svg")} style={{
                     width: "100%",
                     height:200,
