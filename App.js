@@ -4,11 +4,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StyleSheet, Text, SafeAreaView ,Image,View,ImageBackground,Button,TouchableOpacity,TextInput} from 'react-native';
 import { getAuth, RecaptchaVerifier,signInWithPhoneNumber } from 'firebase/auth'
-import app from './firebase';
 import LoginPage from "./pages/login"
 import SignUpPage from './pages/signup';
+import HomePage from './pages/Home';
 
 export const userContext= createContext("Home")
+
 export default function App() {
   const Stack=createNativeStackNavigator();
 
@@ -35,9 +36,10 @@ function handlechange(){
     <NavigationContainer>
  
     <userContext.Provider value={{onChangeName,onChangeSurname,onchangeNumber,onchangeNumber,handlechange}}>
-          <Stack.Navigator initialRouteName='Signup'>
+          <Stack.Navigator initialRouteName='Home'>
             <Stack.Screen name="Login" component={LoginPage} />
             <Stack.Screen name="Signup" component={SignUpPage} onChangeName={onChangeName}/>
+            <Stack.Screen name="Home" component={HomePage}/>
           </Stack.Navigator>
     </userContext.Provider>
    

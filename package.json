@@ -1,5 +1,5 @@
 {
-  "name": "journalapp",
+  "name": "monnusjournalapp",
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
@@ -24,7 +24,9 @@
     "react-native-screens": "~3.11.1",
     "react-native-web": "0.17.7",
     "expo-firebase-recaptcha": "~2.2.0",
-    "react-native-webview": "11.18.1"
+    "react-native-webview": "11.18.1",
+    "expo-av": "~11.2.3",
+    "expo-updates": "~0.13.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

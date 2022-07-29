@@ -1,4 +1,4 @@
-import React,{useState,useContext} from 'react';
+import React,{useState,useContext,useRef} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, SafeAreaView ,Image,View,ImageBackground,Button,TouchableOpacity,TextInput} from 'react-native';
 import { Octicons } from '@expo/vector-icons'; 
@@ -9,10 +9,11 @@ import { userContext } from '../App';
 
 
 function SignUpPage({navigation}){
-
+const [recatch,RefCatch]=useRef('')
 const {onChangeName,onChangeSurname,onchangeNumber,onChangeEmail,handlechange} =useContext(userContext);
 const Id=1;
-
+const phoneProvider = new firebase.auth.PhoneAuthProvider();
+const verificationId = await phoneProvider.verifyPhoneNumber('+0123456789', recaptchaVerifierRef);
     return (
         <SafeAreaView style={styles.container}>
         <View style={{flex:1,width:"100%"}}>
@@ -25,7 +26,7 @@ const Id=1;
                 </View>
         
                 <View style={styles.registerContainer}>
-                  <View id="recaptcha-container"><Text>recaptcha-container</Text></View>
+      
                   <TextInput style={styles.txtInput} onChangeText={text=>onChangeName(text)} placeholder="Name" />
                   <TextInput style={styles.txtInput} onChangeText={text=>onChangeSurname(text)} placeholder="Surname"/>
                   <TextInput style={styles.txtInput} onChangeText={num=>onchangeNumber(num)} placeholder="Number"/>
