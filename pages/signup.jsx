@@ -1,19 +1,54 @@
 import React,{useState,useContext,useRef} from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, SafeAreaView ,Image,View,ImageBackground,Button,TouchableOpacity,TextInput} from 'react-native';
+import { StyleSheet, Text, SafeAreaView ,Alert,Image,View,ImageBackground,Button,TouchableOpacity,TextInput} from 'react-native';
 import { Octicons } from '@expo/vector-icons'; 
-import app from '../firebase';
-import {getAuth} from "firebase/auth";
 import { userContext } from '../App';
+import { FirebaseRecaptchaVerifierModal } from 'expo-firebase-recaptcha';
+import firebaseConfig from "../firebase"
+import firebase from 'firebase/compat/app';
 
 
 
 function SignUpPage({navigation}){
-const [recatch,RefCatch]=useRef('')
+      const [phoneNumber, setPhoneNumber] = useState('');
+       const [code, setCode] = useState('');
+       const [verificationId, setVerificationId] = useState(null);
+       const recaptchaVerifier = useRef(null);
+   
 const {onChangeName,onChangeSurname,onchangeNumber,onChangeEmail,handlechange} =useContext(userContext);
 const Id=1;
-const phoneProvider = new firebase.auth.PhoneAuthProvider();
-const verificationId = await phoneProvider.verifyPhoneNumber('+0123456789', recaptchaVerifierRef);
+
+const sendVerification = () => {
+  const phoneProvider = new firebase.auth.PhoneAuthProvider();
+ const provider= phoneProvider
+      .verifyPhoneNumber(phoneNumber, recaptchaVerifier.current)
+      .then(setVerificationId).catch((err)=>console.log(err))
+      setPhoneNumber('');
+      setTimeout(()=>{
+        console.log(verificationId);
+
+      },15000)
+ };
+
+ const confirmCode = () => {
+  const credential = firebase.auth.PhoneAuthProvider.credential(
+      verificationId,
+      code
+  );
+  console.log(credential);
+  firebase.auth().signInWithCredential(credential)
+  .then(() => {
+      setCode('');
+  })
+  .catch((error) => {
+      // show an alert in case of error
+      alert(error)
+  })
+  Alert.alert(
+      'Login Successful. Welcome To Your Journal Diary',
+  );
+}
+
     return (
         <SafeAreaView style={styles.container}>
         <View style={{flex:1,width:"100%"}}>
@@ -24,24 +59,32 @@ const verificationId = await phoneProvider.verifyPhoneNumber('+0123456789', reca
             <Octicons name="shield-lock" size={54} color="black" />  
             <Text style={{fontSize: 20, fontWeight:600, color:"white"}}>Sign Up</Text>
                 </View>
-        
+                <FirebaseRecaptchaVerifierModal
+                ref={recaptchaVerifier}
+                firebaseConfig={firebaseConfig}
+                />
                 <View style={styles.registerContainer}>
-      
-                  <TextInput style={styles.txtInput} onChangeText={text=>onChangeName(text)} placeholder="Name" />
-                  <TextInput style={styles.txtInput} onChangeText={text=>onChangeSurname(text)} placeholder="Surname"/>
-                  <TextInput style={styles.txtInput} onChangeText={num=>onchangeNumber(num)} placeholder="Number"/>
-                  <TextInput style={styles.txtInput} onChangeText={text=>onChangeEmail(text)} placeholder="Email"/>
+               
+              
+                <TextInput
+                    placeholder='Your phone number'
+                    onChangeText={setPhoneNumber}
+                    keyboardType='phone-pad'
+                    autoCompleteType='tel'
+                    style={styles.txtInput}
+                    />
+                 
                 </View>
         
                   <View style={styles.btnView}>
                 <TouchableOpacity
-                onPress={() => handlechange(Id)}
+                onPress={sendVerification}
                 style={{ backgroundColor: '#0E2A47' ,width:300,height:"51px",
                 shadowColor: 'blue',
                 shadowOffset: {width: -2, height: 4},
                 shadowOpacity: 0.2,
                 shadowRadius: 3,}} >
-                <Text style={styles.textBtn}>Sign up</Text>
+                <Text style={styles.textBtn}>  Send Verification</Text>
               </TouchableOpacity>
                   </View>
                   

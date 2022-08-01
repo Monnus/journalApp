@@ -40,7 +40,7 @@ export default function LoginPage({ navigation }){
                         </View>
 
                         <View style={styles.tosignIn}>
-                    <Text style={{color:"white",fontSize:17}}>Dont have an account? <Text style={{color:"blue",fontSize:17}} onPress={()=> navigation.navigate("Signin")}>Sign in</Text> </Text>
+                    <Text style={{color:"white",fontSize:17}}>Dont have an account? <Text style={{color:"blue",fontSize:17}} onPress={()=> navigation.navigate("Signup")}>Sign in</Text> </Text>
                     </View>
 
                     <View style={{flex:3,width:"100%",height:100}}>

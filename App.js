@@ -1,3 +1,4 @@
+
 import React,{useState,createContext,useContext} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
@@ -6,7 +7,8 @@ import { StyleSheet, Text, SafeAreaView ,Image,View,ImageBackground,Button,Touch
 import { getAuth, RecaptchaVerifier,signInWithPhoneNumber } from 'firebase/auth'
 import LoginPage from "./pages/login"
 import SignUpPage from './pages/signup';
-import HomePage from './pages/Home';
+import HomePage from './pages/home';
+import OTP from './pages/components/otp';
 
 export const userContext= createContext("Home")
 
@@ -36,9 +38,10 @@ function handlechange(){
     <NavigationContainer>
  
     <userContext.Provider value={{onChangeName,onChangeSurname,onchangeNumber,onchangeNumber,handlechange}}>
-          <Stack.Navigator initialRouteName='Home'>
+          <Stack.Navigator initialRouteName='Signup'>
+            <Stack.Screen name="OTPpage" component={OTP}/>
             <Stack.Screen name="Login" component={LoginPage} />
-            <Stack.Screen name="Signup" component={SignUpPage} onChangeName={onChangeName}/>
+            <Stack.Screen name="Signup" component={SignUpPage} />
             <Stack.Screen name="Home" component={HomePage}/>
           </Stack.Navigator>
     </userContext.Provider>
