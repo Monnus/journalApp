@@ -22,12 +22,12 @@ const sendVerification = () => {
   const phoneProvider = new firebase.auth.PhoneAuthProvider();
  const provider= phoneProvider
       .verifyPhoneNumber(phoneNumber, recaptchaVerifier.current)
-      .then(setVerificationId).catch((err)=>console.log(err))
+      .then(setVerificationId)
       setPhoneNumber('');
-      setTimeout(()=>{
+      if(verificationId){
         console.log(verificationId);
+      }
 
-      },15000)
  };
 
  const confirmCode = () => {
@@ -47,6 +47,9 @@ const sendVerification = () => {
   Alert.alert(
       'Login Successful. Welcome To Your Journal Diary',
   );
+  if(credential.params.verificationCode){
+    navigation.navigate("Home");
+  }
 }
 
     return (
@@ -59,12 +62,12 @@ const sendVerification = () => {
             <Octicons name="shield-lock" size={54} color="black" />  
             <Text style={{fontSize: 20, fontWeight:600, color:"white"}}>Sign Up</Text>
                 </View>
+
                 <FirebaseRecaptchaVerifierModal
                 ref={recaptchaVerifier}
                 firebaseConfig={firebaseConfig}
                 />
                 <View style={styles.registerContainer}>
-               
               
                 <TextInput
                     placeholder='Your phone number'
@@ -73,10 +76,7 @@ const sendVerification = () => {
                     autoCompleteType='tel'
                     style={styles.txtInput}
                     />
-                 
-                </View>
-        
-                  <View style={styles.btnView}>
+                         <View style={styles.btnView}>
                 <TouchableOpacity
                 onPress={sendVerification}
                 style={{ backgroundColor: '#0E2A47' ,width:300,height:"51px",
@@ -88,9 +88,20 @@ const sendVerification = () => {
               </TouchableOpacity>
                   </View>
                   
-                  <View style={styles.tosignIn}>
-                    <Text style={{color:"white",fontSize:17}}>Already have an account? <Text style={{color:"blue",fontSize:17}} onPress={()=> navigation.navigate("Login")}>Sign in</Text> </Text>
                     </View>
+                    <View style={styles.registerContainer}>
+                   <TextInput
+                    placeholder='Confirm code'
+                    onChangeText={setCode}
+                    keyboardType='number-pad'
+                    style={styles.txtInput}
+                    />
+                  <TouchableOpacity style={styles.tosignIn} onPress={confirmCode} >
+                    <Text style={{color:"white",fontSize:17}}>click to Verify <Text style={{color:"blue",fontSize:17}}>Code</Text> </Text>
+                    </TouchableOpacity>
+                    </View>
+        
+             
                     
                     <View style={{flex:1,width:"100%",height:100}}>
                     
@@ -114,7 +125,7 @@ const styles = StyleSheet.create({
   flex:1,
       backgroundColor: '#A60B90',
       alignItems: 'center',
-      justifyContent:"space-evenly"
+   
     },
     wavePNG: {
       width: "100%",
@@ -123,9 +134,11 @@ const styles = StyleSheet.create({
       
     },
     registerContainer:{
-      flex:2,
+flex:3,
+  marginBottom:10,
          borderWidth: 2,
          justifyContent:"space-evenly",
+         alignItems:"center",
          borderColor:"#1170EC",
         width:"90%",
       backgroundColor:"rgba(14, 42, 71,0.7)",
